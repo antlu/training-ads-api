@@ -1,14 +1,17 @@
-from rest_framework import generics
+from rest_framework import filters, generics
 
 from ads.models import Advertisement
 from ads.serializers import AdSerializer
 
 
-class AdList(generics.ListAPIView):
+class AdList(generics.ListCreateAPIView):
     """A list view for ads."""
 
     queryset = Advertisement.objects.all()
     serializer_class = AdSerializer
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ('price', 'created_at')
+    ordering = '-created_at'
 
 
 class AdDetails(generics.RetrieveAPIView):
