@@ -8,4 +8,24 @@ class AdSerializer(serializers.ModelSerializer):
 
     class Meta(object):
         model = Advertisement
-        fields = ('title', 'price', 'photo_link1')
+        fields = ['title', 'price', 'photo_link1']
+        optional_fields = ('photo_link2', 'photo_link3', 'description')
+
+    def __init__(self, *args, **kwargs):
+        """
+        Manage fields dynamically.
+
+        On GET, add fields from the query string by the key `add`.
+        On POST, use all fields.
+        """  # noqa: DAR101
+        super().__init__(*args, **kwargs)
+        request = self.context['request']
+        if request.method == 'POST':
+            self.Meta.fields.extend(self.Meta.optional_fields)
+            return
+        requested_fields = request.query_params.get('add')
+        if requested_fields is None:
+            return
+        for field in requested_fields.split(','):
+            if field in self.Meta.optional_fields:
+                self.Meta.fields.append(field)

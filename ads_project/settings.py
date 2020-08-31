@@ -124,7 +124,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
-# REST framework settings
+# REST framework
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
