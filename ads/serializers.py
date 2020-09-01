@@ -9,6 +9,7 @@ class AdSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = Advertisement
         fields = ['title', 'price', 'photo_link1']
+        required_fields = tuple(fields)
         optional_fields = ('photo_link2', 'photo_link3', 'description')
 
     def __init__(self, *args, **kwargs):
@@ -23,6 +24,7 @@ class AdSerializer(serializers.ModelSerializer):
         if request.method == 'POST':
             self.Meta.fields.extend(self.Meta.optional_fields)
             return
+        self.Meta.fields = list(self.Meta.required_fields)
         requested_fields = request.query_params.get('add')
         if requested_fields is None:
             return
