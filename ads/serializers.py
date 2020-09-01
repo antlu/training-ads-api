@@ -10,7 +10,14 @@ class AdSerializer(serializers.ModelSerializer):
         model = Advertisement
         fields = ['title', 'price', 'photo_link1']
         required_fields = tuple(fields)
-        optional_fields = ('photo_link2', 'photo_link3', 'description')
+        optional_fields = (
+            'photo_link2',
+            'photo_link3',
+            'description',
+            'id',
+            'created_at',
+        )
+        read_only_fields = ('created_at',)
 
     def __init__(self, *args, **kwargs):
         """

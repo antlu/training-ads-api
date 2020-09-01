@@ -18,7 +18,7 @@ class AdList(generics.ListCreateAPIView):
         """Return a customized response with the id of the ad."""  # noqa: DAR101,E501
         response = super().post(*args, **kwargs)
         return Response(
-            {'id': response.data.serializer.instance.id},
+            {'id': response.data['id']},
             status=response.status_code,
         )
 
