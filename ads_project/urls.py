@@ -16,7 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from ads.views import APIRedirectView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('ads.urls')),
+    path('', APIRedirectView.as_view()),
 ]
