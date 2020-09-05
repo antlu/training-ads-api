@@ -1,0 +1,10 @@
+.vscode/
+
+.git/
+.gitignore
+
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+*.sqlite3
