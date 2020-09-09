@@ -1,6 +1,7 @@
 from datetime import datetime
 
 import pytz
+from django.conf import settings
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
@@ -9,6 +10,10 @@ from rest_framework.test import APIRequestFactory, APITestCase
 from ads.factories import AdFactory
 from ads.models import Advertisement
 from ads.serializers import AdSerializer
+
+settings.CACHES['default'] = {
+    'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+}
 
 
 class AdModelTests(TestCase):
@@ -33,6 +38,7 @@ class AdModelTests(TestCase):
             photo_link3=PHOTO_LINK3,
             created_at=CREATED_AT,
         )
+        self.assertEqual(str(ad), TITLE)
         self.assertEqual(ad.title, TITLE)
         self.assertEqual(ad.description, DESCRIPTION)
         self.assertEqual(ad.price, PRICE)

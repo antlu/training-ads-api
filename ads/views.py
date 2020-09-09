@@ -1,3 +1,6 @@
+from django.conf import settings
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.views.generic import RedirectView
 from rest_framework import filters, generics
 from rest_framework.response import Response
@@ -6,6 +9,7 @@ from ads.models import Advertisement
 from ads.serializers import AdSerializer
 
 
+@method_decorator(cache_page(settings.CACHE_TTL), name='get')
 class AdList(generics.ListCreateAPIView):
     """A list view for adding and viewing ads."""
 
@@ -24,6 +28,7 @@ class AdList(generics.ListCreateAPIView):
         )
 
 
+@method_decorator(cache_page(settings.CACHE_TTL), name='get')
 class AdDetails(generics.RetrieveAPIView):
     """A detail view for viewing an ad."""
 
