@@ -8,8 +8,7 @@ class AdSerializer(serializers.ModelSerializer):
 
     class Meta(object):
         model = Advertisement
-        fields = ['title', 'price', 'photo_link1']
-        required_fields = tuple(fields)
+        fields = '__all__'
         optional_fields = (
             'photo_link2',
             'photo_link3',
@@ -27,14 +26,16 @@ class AdSerializer(serializers.ModelSerializer):
         On POST, use all fields.
         """  # noqa: DAR101
         super().__init__(*args, **kwargs)
-        request = self.context['request']
+        request = self.context.get('request')
+        if request is None:
+            return
         if request.method == 'POST':
-            self.Meta.fields.extend(self.Meta.optional_fields)
             return
-        self.Meta.fields = list(self.Meta.required_fields)
         requested_fields = request.query_params.get('add')
-        if requested_fields is None:
-            return
-        for field in requested_fields.split(','):
-            if field in self.Meta.optional_fields:
-                self.Meta.fields.append(field)
+        fields_to_exclude = (
+            self.Meta.optional_fields if requested_fields is None
+            else
+            set(self.Meta.optional_fields) - set(requested_fields.split(','))
+        )
+        for field in fields_to_exclude:
+            self.fields.pop(field)

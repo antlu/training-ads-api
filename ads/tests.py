@@ -4,7 +4,7 @@ import pytz
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.test import APIRequestFactory, APITestCase
+from rest_framework.test import APITestCase
 
 from ads.factories import AdFactory
 from ads.models import Advertisement
@@ -50,9 +50,7 @@ class AdsAPITests(APITestCase):
         """New ad gets created and its ID is returned."""
         url = reverse('ad-list')
         ad = AdFactory.build()
-        serializer = AdSerializer(
-            ad, context={'request': APIRequestFactory().post('')},
-        )
+        serializer = AdSerializer(ad)
         response = self.client.post(url, serializer.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         saved_ad = Advertisement.objects.first()
@@ -89,7 +87,7 @@ class AdsAPITests(APITestCase):
         )
         self.assertTupleEqual(
             tuple(response_for_optional_fields.data.keys()),
-            ('title', 'price', 'photo_link1', 'description', 'created_at'),
+            ('title', 'description', 'price', 'photo_link1', 'created_at'),
         )
 
     def test_sorting(self):
