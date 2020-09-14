@@ -8,7 +8,7 @@ from rest_framework.test import APITestCase
 
 from ads.factories import AdFactory
 from ads.models import Advertisement
-from ads.serializers import AdSerializer
+from ads.serializers import DynamicAdSerializer
 
 
 class AdModelTests(TestCase):
@@ -50,7 +50,7 @@ class AdsAPITests(APITestCase):
         """New ad gets created and its ID is returned."""
         url = reverse('ad-list')
         ad = AdFactory.build()
-        serializer = AdSerializer(ad)
+        serializer = DynamicAdSerializer(ad)
         response = self.client.post(url, serializer.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         saved_ad = Advertisement.objects.first()

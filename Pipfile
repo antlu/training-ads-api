@@ -13,6 +13,7 @@ django = "*"
 djangorestframework = "*"
 psycopg2-binary = "*"
 django-redis = "*"
+drf-yasg = "*"
 
 [requires]
 python_version = "3.6"

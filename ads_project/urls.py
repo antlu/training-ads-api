@@ -16,9 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import RedirectView
+from drf_yasg.views import get_schema_view
+
+from ads.openapi import info
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('ads.urls')),
     path('', RedirectView.as_view(pattern_name='ad-list')),
+    path('docs/', get_schema_view(info).with_ui('redoc')),
 ]
