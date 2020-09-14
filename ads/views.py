@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
-from django.views.generic import RedirectView
 from rest_framework import filters, generics
 from rest_framework.response import Response
 
@@ -34,9 +33,3 @@ class AdDetails(generics.RetrieveAPIView):
 
     queryset = Advertisement.objects.all()
     serializer_class = AdSerializer
-
-
-class APIRedirectView(RedirectView):
-    """Redirect to API."""
-
-    pattern_name = 'ad-list'

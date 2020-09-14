@@ -1,4 +1,4 @@
-"""ads_project URL Configuration.
+"""Project URL Configuration.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
@@ -15,11 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-
-from ads.views import APIRedirectView
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('ads.urls')),
-    path('', APIRedirectView.as_view()),
+    path('', RedirectView.as_view(pattern_name='ad-list')),
 ]
